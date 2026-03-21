@@ -1,0 +1,14 @@
+package com.evg.api.domain.utils
+
+enum class GigaChatError: Error {
+    REQUEST_TIMEOUT,
+    TOO_MANY_REQUESTS,
+    FORBIDDEN,
+    NOT_FOUND,
+    SERVER_ERROR,
+    SERIALIZATION,
+    UNKNOWN_HOST,
+    PROTOCOL_EXCEPTION,
+    CONNECT_EXCEPTION,
+    UNKNOWN,
+}

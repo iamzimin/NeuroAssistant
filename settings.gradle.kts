@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "NeuroAssistant"
 include(":app")
+include(":feature:login")
+include(":core:resource")
+include(":core:api")

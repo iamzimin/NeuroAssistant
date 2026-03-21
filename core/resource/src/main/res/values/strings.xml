@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">NeuroAssistant</string>
+
+    <!--Login screen-->
+    <!--Registration screen-->
+    <string name="welcome">Welcome!</string>
+    <string name="create_account_progress">Create an account</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="enter_password_again">Enter your password again</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="i_already_have_account">I already have account</string>
+    <string name="log_in">Log in</string>
+    <string name="wrong_email_or_password">Wrong email or password</string>
+    <string name="login_success">Login success!</string>
+    <string name="login_account_progress">Log in to your account</string>
+    <string name="i_dont_have_account">I don\'t have account</string>
+    <string name="forgot_password">Forgot your password?</string>
+
+    <!--Shared-->
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_request_timeout">Request timeout</string>
+    <string name="error_forbidden">Forbidden</string>
+    <string name="error_too_many_requests">Too many requests</string>
+    <string name="error_not_found">Not found error</string>
+    <string name="error_server">Server error</string>
+    <string name="error_serialization">Serialization error</string>
+    <string name="error_unknown_host">Unknown host error</string>
+    <string name="error_protocol">Protocol error</string>
+    <string name="error_connection">No connection</string>
+
+    <string name="error_invalid_credentials">Invalid credentials</string>
+    <string name="error_wrong_password">Incorrect password</string>
+    <string name="error_user_not_found">User not found</string>
+    <string name="error_user_disabled">User account is disabled</string>
+    <string name="error_email_already_in_use">Email is already in use</string>
+    <string name="error_weak_password">Password is too weak</string>
+    <string name="error_network">Network error</string>
+</resources>

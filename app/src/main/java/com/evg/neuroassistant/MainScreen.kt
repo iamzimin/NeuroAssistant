@@ -38,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.evg.chats_list.presentation.ChatsListRoot
 import com.evg.login.presentation.LoginRoot
 import com.evg.neuroassistant.navigation.NavigationItem
@@ -182,7 +183,21 @@ fun MainScreen(
                     NeuroAssistantScaffold { paddingValues ->
                         ChatsListRoot(
                             modifier = Modifier.fillMaxSize().padding(paddingValues),
+                            onNavigateToChat = { chatId ->
+                                navController.navigate(Route.Chat(chatId))
+                            },
                         )
+                    }
+                }
+                composable<Route.Chat> { backStackEntry ->
+                    val route = backStackEntry.toRoute<Route.Chat>()
+
+                    NeuroAssistantScaffold { paddingValues ->
+                        Text(text = "Chat ${route.id}")
+                        /*ChatScreen(
+                            modifier = Modifier.fillMaxSize().padding(paddingValues),
+                            chatId = route.id,
+                        )*/
                     }
                 }
             }

@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.room.common)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
+    implementation(libs.room.paging)
     ksp(libs.room.compiler)
 
     // Dagger Hilt

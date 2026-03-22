@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:database"))
     implementation(project(":core:resource"))
 
     // MVI Orbit
@@ -47,6 +48,11 @@ dependencies {
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.navigation)
+
+    // Paging
+    implementation(libs.jetpack.paging.runtime)
+    implementation(libs.jetpack.paging.common)
+    implementation(libs.jetpack.paging.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -1,6 +1,9 @@
 package com.evg.database.di
 
 import android.content.Context
+import androidx.room.Room
+import com.evg.database.data.storage.ChatDao
+import com.evg.database.data.storage.NeuroAssistantDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,12 +16,31 @@ import com.evg.database.domain.repository.DatabaseRepository
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+    @Provides
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ): NeuroAssistantDatabase {
+        return Room.databaseBuilder(
+            context,
+            NeuroAssistantDatabase::class.java,
+            NeuroAssistantDatabase.DATABASE_NAME,
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatDao(
+        database: NeuroAssistantDatabase,
+    ): ChatDao {
+        return database.chatDao()
+    }
 
     @Provides
     @Singleton
     fun provideDatabaseRepository(
-        @ApplicationContext context: Context,
+        chatDao: ChatDao,
     ): DatabaseRepository {
-        return DatabaseRepositoryImpl()
+        return DatabaseRepositoryImpl(chatDao)
     }
 }

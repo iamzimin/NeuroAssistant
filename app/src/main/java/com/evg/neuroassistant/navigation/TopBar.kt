@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.evg.resource.R
+import com.evg.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +51,7 @@ fun TopBar(
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
-                navigationIconContentColor = Color.White,
+                navigationIconContentColor = AppTheme.colors.text,
             )
         )
     }

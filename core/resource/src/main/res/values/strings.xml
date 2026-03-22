@@ -22,6 +22,16 @@
 
     <!--Chats screen-->
     <string name="chats_list">Chats list</string>
+    <string name="search">Search</string>
+    <string name="search_chats_hint">Find chats by title</string>
+    <string name="new_chat">New chat</string>
+    <string name="chat_icon">Chat icon</string>
+    <string name="empty_chats_title">No chats yet</string>
+    <string name="empty_chats_subtitle">Create your first chat and it will appear here.</string>
+    <string name="empty_search_title">Nothing found</string>
+    <string name="empty_search_subtitle">Try a different chat title.</string>
+    <string name="retry">Retry</string>
+    <string name="chat_screen_subtitle">The chat screen is open and ready for the next implementation step.</string>
 
     <!--Shared-->
     <string name="error_unknown">Unknown error</string>

@@ -20,6 +20,9 @@
     <string name="i_dont_have_account">I don\'t have account</string>
     <string name="forgot_password">Forgot your password?</string>
 
+    <!--Chats screen-->
+    <string name="chats_list">Chats list</string>
+
     <!--Shared-->
     <string name="error_unknown">Unknown error</string>
     <string name="error_request_timeout">Request timeout</string>

@@ -1,22 +1,45 @@
 package com.evg.neuroassistant
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.evg.login.presentation.LoginRoot
+import com.evg.neuroassistant.navigation.NavigationItem
 import com.evg.neuroassistant.navigation.NeuroAssistantScaffold
 import com.evg.neuroassistant.navigation.Route
 import com.evg.neuroassistant.navigation.TopBar
@@ -24,6 +47,7 @@ import com.evg.neuroassistant.snackbar.ObserveAsEvent
 import com.evg.neuroassistant.snackbar.SwipeableSnackBarHost
 import com.evg.ui.snackbar.SnackBarController
 import com.evg.ui.theme.AppTheme
+import com.evg.resource.R
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -32,10 +56,18 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
 ) {
     val navController = rememberNavController()
+    val scope = rememberCoroutineScope()
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val currentDes = navController.currentBackStackEntryAsState().value?.destination
+    val isLoginScreen = currentDes?.hasRoute(Route.Login::class) == true
     val snackBarHostState = remember { SnackbarHostState() }
     val startDestination = viewModel.startDestination
 
-    val scope = rememberCoroutineScope()
+    var selectedItemIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
     ObserveAsEvent(
         flow = SnackBarController.events,
         snackBarHostState,
@@ -54,35 +86,100 @@ fun MainScreen(
         }
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = { TopBar(
-            navigation = navController,
-            onPreviousScreen = {
-                navController.popBackStack()
-            })
-        },
-        containerColor = AppTheme.colors.background,
-        snackbarHost = { SwipeableSnackBarHost(hostState = snackBarHostState) }
-    ) {
-        NavHost(
-            navController = navController,
-            startDestination = startDestination,
-        ) {
-            composable<Route.Login> {
-                NeuroAssistantScaffold { paddingValues ->
-                    LoginRoot(
-                        modifier = Modifier.fillMaxSize().padding(paddingValues),
-                        onNavigateToHome = {
-                            navController.navigate(Route.ChatsList) {
-                                popUpTo(Route.Login) { inclusive = true }
+    ModalNavigationDrawer(
+        modifier = Modifier
+            .background(AppTheme.colors.background),
+        drawerState = drawerState,
+        gesturesEnabled = !isLoginScreen,
+        drawerContent = {
+            ModalDrawerSheet(
+                modifier = Modifier
+                    .padding(end = 70.dp),
+                drawerContainerColor = AppTheme.colors.tileBackground,
+            ) {
+                Spacer(modifier = Modifier.height(18.dp))
+
+                Text(
+                    modifier = Modifier
+                        .padding(NavigationDrawerItemDefaults.ItemPadding),
+                    text = stringResource(id = R.string.app_name),
+                    style = AppTheme.typography.heading,
+                    color = AppTheme.colors.text,
+                )
+
+                Spacer(modifier = Modifier.height(18.dp))
+
+                NavigationItem.items.forEachIndexed { index, item ->
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = stringResource(item.title),
+                                style = AppTheme.typography.body,
+                                color = AppTheme.colors.text,
+                            )
+                        },
+                        selected = index == selectedItemIndex,
+                        onClick = {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                            selectedItemIndex = index
+                            scope.launch {
+                                drawerState.close()
                             }
                         },
+                        colors = NavigationDrawerItemDefaults.colors(
+                            unselectedContainerColor = Color.Transparent,
+                            selectedContainerColor = AppTheme.colors.secondary,
+                        ),
+                        icon = {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = item.icon),
+                                contentDescription = stringResource(item.title),
+                                tint = AppTheme.colors.text,
+                            )
+                        },
+                        shape = RectangleShape,
                     )
                 }
             }
-            composable<Route.ChatsList> {
-                Text(text = "Chats List Screen", modifier = Modifier.fillMaxSize())
+        },
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = { TopBar(
+                navigation = navController,
+                onPreviousScreen = {
+                    navController.popBackStack()
+                })
+            },
+            containerColor = AppTheme.colors.background,
+            snackbarHost = { SwipeableSnackBarHost(hostState = snackBarHostState) }
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = startDestination,
+            ) {
+                composable<Route.Login> {
+                    NeuroAssistantScaffold { paddingValues ->
+                        LoginRoot(
+                            modifier = Modifier.fillMaxSize().padding(paddingValues),
+                            onNavigateToHome = {
+                                navController.navigate(Route.ChatsList) {
+                                    popUpTo(Route.Login) { inclusive = true }
+                                }
+                            },
+                        )
+                    }
+                }
+                composable<Route.ChatsList> {
+                    Text(text = "Chats List Screen", modifier = Modifier.fillMaxSize())
+                }
             }
         }
     }

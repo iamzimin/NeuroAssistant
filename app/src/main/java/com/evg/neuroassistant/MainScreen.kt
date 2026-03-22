@@ -38,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.evg.chats_list.presentation.ChatsListRoot
 import com.evg.login.presentation.LoginRoot
 import com.evg.neuroassistant.navigation.NavigationItem
 import com.evg.neuroassistant.navigation.NeuroAssistantScaffold
@@ -178,7 +179,11 @@ fun MainScreen(
                     }
                 }
                 composable<Route.ChatsList> {
-                    Text(text = "Chats List Screen", modifier = Modifier.fillMaxSize())
+                    NeuroAssistantScaffold { paddingValues ->
+                        ChatsListRoot(
+                            modifier = Modifier.fillMaxSize().padding(paddingValues),
+                        )
+                    }
                 }
             }
         }

@@ -28,6 +28,7 @@ firebaseCrashlytics = "20.0.4"
 firebaseAuth = "24.0.1"
 googleGmsGoogleServices = "4.4.4"
 googleFirebaseCrashlytics = "3.0.6"
+junitJunit = "4.13.2"
 
 
 [libraries]
@@ -91,6 +92,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 # Firebase
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
 
 
 [plugins]

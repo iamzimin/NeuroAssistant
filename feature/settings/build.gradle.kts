@@ -1,27 +1,20 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt.plugin)
-    alias(libs.plugins.kotlin.serializable)
     alias(libs.plugins.jetbrains.kotlin.ksp)
-    alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
-    namespace = "com.evg.neuroassistant"
+    namespace = "com.evg.settings"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.evg.neuroassistant"
         minSdk = 28
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -45,21 +38,11 @@ android {
 dependencies {
     implementation(project(":core:resource"))
     implementation(project(":core:api"))
-    implementation(project(":core:database"))
-    implementation(project(":feature:login"))
-    implementation(project(":feature:chats-list"))
-    implementation(project(":feature:chat"))
-    implementation(project(":feature:settings"))
 
-
-    //Navigation
-    implementation(libs.androidx.ui.navigation)
-
-    // Serialization
-    implementation(libs.kotlinx.serialization)
-
-    // Firebase
-    implementation(libs.firebase.crashlytics)
+    // MVI Orbit
+    implementation(libs.mvi.orbit.core)
+    implementation(libs.mvi.orbit.viewmodel)
+    implementation(libs.mvi.orbit.compose)
 
     // Dagger Hilt
     implementation(libs.dagger.hilt)
@@ -74,9 +57,5 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.compose.material)
     debugImplementation(libs.androidx.ui.tooling)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
 }

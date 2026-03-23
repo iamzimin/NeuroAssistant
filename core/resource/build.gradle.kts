@@ -35,9 +35,6 @@ android {
 dependencies {
     implementation(project(":core:api"))
 
-    // Coil
-    implementation(libs.coil.compose)
-
     //UI
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

@@ -3,13 +3,15 @@ package com.evg.database.data.storage
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.evg.database.domain.model.ChatDBO
+import com.evg.database.domain.model.ChatMessageDBO
 
 @Database(
-    entities = [ChatDBO::class],
+    entities = [ChatDBO::class, ChatMessageDBO::class],
     version = 1,
 )
 abstract class NeuroAssistantDatabase : RoomDatabase() {
     abstract fun chatDao(): ChatDao
+    abstract fun chatMessageDao(): ChatMessageDao
 
     companion object {
         const val DATABASE_NAME = "neuro_assistant.db"

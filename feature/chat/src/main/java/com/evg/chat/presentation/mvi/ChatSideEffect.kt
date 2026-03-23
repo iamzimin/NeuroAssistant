@@ -1,6 +1,8 @@
 package com.evg.chat.presentation.mvi
 
+import com.evg.api.domain.utils.GigaChatError
+
 sealed class ChatSideEffect {
-    data class FirstClass(val paramOne: String) : ChatSideEffect()
-    data object FirstObject : ChatSideEffect()
+    data class ShareMessage(val text: String) : ChatSideEffect()
+    data class ShowError(val error: GigaChatError) : ChatSideEffect()
 }

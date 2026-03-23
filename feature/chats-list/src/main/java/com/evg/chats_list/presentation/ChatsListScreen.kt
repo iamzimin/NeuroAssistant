@@ -71,10 +71,12 @@ fun ChatsListScreen(
                 value = state.searchQuery,
                 onValueChange = { dispatch(ChatsListAction.OnSearchQueryChanged(it)) },
                 singleLine = true,
+                textStyle = AppTheme.typography.body.copy(color = AppTheme.colors.text),
                 placeholder = {
                     Text(
                         text = stringResource(R.string.search_chats_hint),
                         style = AppTheme.typography.body,
+                        color = AppTheme.colors.textFieldPlaceholder,
                     )
                 },
                 shape = RoundedCornerShape(AppTheme.dimens.borderRadius),

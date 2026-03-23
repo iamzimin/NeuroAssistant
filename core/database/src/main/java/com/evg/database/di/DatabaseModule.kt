@@ -2,7 +2,9 @@ package com.evg.database.di
 
 import android.content.Context
 import androidx.room.Room
+import com.evg.database.data.repository.ChatHistoryRepositoryImpl
 import com.evg.database.data.storage.ChatDao
+import com.evg.database.data.storage.ChatMessageDao
 import com.evg.database.data.storage.NeuroAssistantDatabase
 import dagger.Module
 import dagger.Provides
@@ -11,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import com.evg.database.data.repository.DatabaseRepositoryImpl
+import com.evg.database.domain.repository.ChatHistoryRepository
 import com.evg.database.domain.repository.DatabaseRepository
 
 @Module
@@ -38,9 +41,25 @@ object DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideChatMessageDao(
+        database: NeuroAssistantDatabase,
+    ): ChatMessageDao {
+        return database.chatMessageDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideDatabaseRepository(
         chatDao: ChatDao,
     ): DatabaseRepository {
         return DatabaseRepositoryImpl(chatDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatHistoryRepository(
+        chatMessageDao: ChatMessageDao,
+    ): ChatHistoryRepository {
+        return ChatHistoryRepositoryImpl(chatMessageDao)
     }
 }

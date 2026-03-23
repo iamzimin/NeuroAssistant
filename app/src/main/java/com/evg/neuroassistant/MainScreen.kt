@@ -22,6 +22,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,6 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.evg.chat.presentation.ChatRoot
 import com.evg.chats_list.presentation.ChatsListRoot
 import com.evg.login.presentation.LoginRoot
 import com.evg.neuroassistant.navigation.NavigationItem
@@ -68,6 +70,9 @@ fun MainScreen(
 
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)
+    }
+    var currentChatTitle by remember {
+        mutableStateOf("")
     }
 
     ObserveAsEvent(
@@ -156,6 +161,7 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize(),
             topBar = { TopBar(
                 navigation = navController,
+                title = currentChatTitle,
                 onPreviousScreen = {
                     navController.popBackStack()
                 })
@@ -184,6 +190,7 @@ fun MainScreen(
                         ChatsListRoot(
                             modifier = Modifier.fillMaxSize().padding(paddingValues),
                             onNavigateToChat = { chatId ->
+                                currentChatTitle = ""
                                 navController.navigate(Route.Chat(chatId))
                             },
                         )
@@ -193,11 +200,13 @@ fun MainScreen(
                     val route = backStackEntry.toRoute<Route.Chat>()
 
                     NeuroAssistantScaffold { paddingValues ->
-                        Text(text = "Chat ${route.id}")
-                        /*ChatScreen(
+                        ChatRoot(
                             modifier = Modifier.fillMaxSize().padding(paddingValues),
                             chatId = route.id,
-                        )*/
+                            onChatTitleChanged = { title ->
+                                currentChatTitle = title
+                            },
+                        )
                     }
                 }
             }

@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.evg.database.domain.model.ChatDBO
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChatDao {
@@ -28,4 +29,13 @@ interface ChatDao {
         """
     )
     fun searchChatsPagingSource(query: String): PagingSource<Int, ChatDBO>
+
+    @Query(
+        """
+        SELECT * FROM chats
+        WHERE id = :chatId
+        LIMIT 1
+        """
+    )
+    fun observeChat(chatId: Long): Flow<ChatDBO?>
 }

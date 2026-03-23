@@ -7,6 +7,8 @@ import com.evg.resource.R
 
 fun GigaChatError.toErrorMessage(context: Context): String {
     return when (this) {
+        GigaChatError.BAD_REQUEST -> context.getString(R.string.bad_request)
+        GigaChatError.UNAUTHORIZED -> context.getString(R.string.error_unauthorized)
         GigaChatError.REQUEST_TIMEOUT -> context.getString(R.string.error_request_timeout)
         GigaChatError.TOO_MANY_REQUESTS -> context.getString(R.string.error_too_many_requests)
         GigaChatError.FORBIDDEN -> context.getString(R.string.error_forbidden)
@@ -16,6 +18,7 @@ fun GigaChatError.toErrorMessage(context: Context): String {
         GigaChatError.UNKNOWN_HOST -> context.getString(R.string.error_unknown_host)
         GigaChatError.PROTOCOL_EXCEPTION -> context.getString(R.string.error_protocol)
         GigaChatError.CONNECT_EXCEPTION -> context.getString(R.string.error_connection)
+        GigaChatError.SSL_HANDSHAKE -> context.getString(R.string.ssl_handshake)
         GigaChatError.UNKNOWN -> context.getString(R.string.error_unknown)
     }
 }

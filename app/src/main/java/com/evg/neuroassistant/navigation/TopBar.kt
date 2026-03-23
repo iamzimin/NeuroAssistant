@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import com.evg.ui.theme.AppTheme
 @Composable
 fun TopBar(
     navigation: NavController,
+    title: String,
     onPreviousScreen: () -> Unit,
 ) {
     val navBackStackEntry by navigation.currentBackStackEntryAsState()
@@ -39,7 +41,13 @@ fun TopBar(
         exit = slideOutVertically(targetOffsetY = { -it }),
     ) {
         TopAppBar(
-            title = {},
+            title = {
+                Text(
+                    text = title,
+                    style = AppTheme.typography.body,
+                    color = AppTheme.colors.text,
+                )
+            },
             navigationIcon = {
                 IconButton(onClick = onPreviousScreen) {
                     Icon(

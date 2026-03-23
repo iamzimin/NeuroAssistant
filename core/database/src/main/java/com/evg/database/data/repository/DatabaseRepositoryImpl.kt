@@ -36,6 +36,10 @@ class DatabaseRepositoryImpl(
         ).flow
     }
 
+    override fun observeChat(chatId: Long): Flow<ChatDBO?> {
+        return chatDao.observeChat(chatId)
+    }
+
     override suspend fun createChat(title: String): Long {
         val normalizedTitle = title.trim().ifBlank { DEFAULT_CHAT_TITLE }
 

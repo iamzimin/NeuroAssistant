@@ -1,6 +1,8 @@
 package com.evg.api.domain.utils
 
 enum class GigaChatError: Error {
+    BAD_REQUEST,
+    UNAUTHORIZED,
     REQUEST_TIMEOUT,
     TOO_MANY_REQUESTS,
     FORBIDDEN,
@@ -10,5 +12,6 @@ enum class GigaChatError: Error {
     UNKNOWN_HOST,
     PROTOCOL_EXCEPTION,
     CONNECT_EXCEPTION,
+    SSL_HANDSHAKE,
     UNKNOWN,
 }

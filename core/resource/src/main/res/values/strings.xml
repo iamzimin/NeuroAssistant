@@ -32,9 +32,18 @@
     <string name="empty_search_subtitle">Try a different chat title.</string>
     <string name="retry">Retry</string>
     <string name="chat_screen_subtitle">The chat screen is open and ready for the next implementation step.</string>
+    <string name="chat_empty_state">Write the first message to start the conversation.</string>
+    <string name="chat_message_hint">Ask anything</string>
+    <string name="chat_send">Send message</string>
+    <string name="chat_clear_input">Clear</string>
+    <string name="chat_generating">Assistant is thinking...</string>
+    <string name="chat_response_error">Could not generate the response.</string>
+    <string name="chat_share_chooser_title">Share assistant response</string>
 
     <!--Shared-->
+    <string name="bad_request">Bad request</string>
     <string name="error_unknown">Unknown error</string>
+    <string name="error_unauthorized">Unauthorized. Add a valid GigaChat authorization key.</string>
     <string name="error_request_timeout">Request timeout</string>
     <string name="error_forbidden">Forbidden</string>
     <string name="error_too_many_requests">Too many requests</string>
@@ -44,6 +53,7 @@
     <string name="error_unknown_host">Unknown host error</string>
     <string name="error_protocol">Protocol error</string>
     <string name="error_connection">No connection</string>
+    <string name="ssl_handshake">SSL handshake error</string>
 
     <string name="error_invalid_credentials">Invalid credentials</string>
     <string name="error_wrong_password">Incorrect password</string>

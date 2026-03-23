@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -48,7 +49,13 @@ fun AuthorizationTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(filedName, color = AppTheme.colors.text.copy(alpha = 0.6f)) },
-        placeholder = { Text(placeholder) },
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = AppTheme.typography.body,
+                color = AppTheme.colors.textFieldPlaceholder,
+            )
+        },
         singleLine = true,
         isError = isError,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),

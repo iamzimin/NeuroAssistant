@@ -9,4 +9,7 @@ interface GigaChatApiRepository {
     suspend fun getAnswer(
         messages: List<GigaChatRequestMessage>,
     ): ServerResult<GigaChatCompletionResult, GigaChatError>
+    suspend fun getTokenBalance(
+        model: String,
+    ): ServerResult<Int, GigaChatError>
 }

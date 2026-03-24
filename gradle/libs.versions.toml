@@ -25,9 +25,9 @@ espressoCoreVersion = "3.7.0"
 appcompat = "1.7.1"
 firebaseCrashlytics = "20.0.4"
 firebaseAuth = "24.0.1"
+firebaseFirestore = "26.1.2"
 googleGmsGoogleServices = "4.4.4"
 googleFirebaseCrashlytics = "3.0.6"
-junitJunit = "4.13.2"
 shimmer = "1.3.3"
 
 
@@ -91,12 +91,12 @@ androidx-ui-navigation = { group = "androidx.navigation", name = "navigation-com
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 
 # Coil
-# coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # Firebase
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
-junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 
 [plugins]

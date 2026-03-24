@@ -1,10 +1,16 @@
 package com.evg.ui.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.appcompat.app.AppCompatDelegate
 
 
 object AppTheme {
+    var nightMode by mutableIntStateOf(AppCompatDelegate.MODE_NIGHT_YES)
+
     val colors: AppPalette
         @Composable
         get() = LocalAppColors.current

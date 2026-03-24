@@ -3,21 +3,16 @@ package com.evg.chat.presentation
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,11 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.evg.chat.domain.model.ChatMessage
-import com.evg.chat.domain.model.ChatMessageRole
-import com.evg.chat.domain.model.ChatMessageStatus
-import com.evg.chat.presentation.message.ChatMessageItem
 import com.evg.resource.R
+import com.evg.ui.custom.DefaultTextField
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
 
@@ -47,20 +39,13 @@ fun ChatInputBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        OutlinedTextField(
+        DefaultTextField(
             modifier = Modifier.weight(1f),
-            textStyle = AppTheme.typography.body.copy(color = AppTheme.colors.text),
             value = value,
             onValueChange = onValueChange,
             minLines = 1,
             maxLines = 5,
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.chat_message_hint),
-                    style = AppTheme.typography.body,
-                    color = AppTheme.colors.textFieldPlaceholder,
-                )
-            },
+            placeholder = stringResource(R.string.chat_message_hint),
             trailingIcon = {
                 if (value.isNotBlank()) {
                     IconButton(onClick = onClearClick) {
@@ -72,8 +57,7 @@ fun ChatInputBar(
                         )
                     }
                 }
-            },
-            shape = RoundedCornerShape(AppTheme.dimens.borderRadius),
+            }
         )
 
         Spacer(modifier = Modifier.width(AppTheme.dimens.paddingSmall))

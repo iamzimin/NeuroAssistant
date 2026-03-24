@@ -42,6 +42,7 @@ import com.evg.chats_list.domain.model.ChatListItem
 import com.evg.chats_list.presentation.mvi.ChatsListAction
 import com.evg.chats_list.presentation.mvi.ChatsListState
 import com.evg.resource.R
+import com.evg.ui.custom.DefaultTextField
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
 import com.evg.ui.theme.darkAddButtonColor
@@ -66,20 +67,12 @@ fun ChatsListScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedTextField(
+            DefaultTextField(
                 modifier = Modifier.weight(1f),
-                value = state.searchQuery,
+                value = state.appliedQuery ?: "",
                 onValueChange = { dispatch(ChatsListAction.OnSearchQueryChanged(it)) },
                 singleLine = true,
-                textStyle = AppTheme.typography.body.copy(color = AppTheme.colors.text),
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.search_chats_hint),
-                        style = AppTheme.typography.body,
-                        color = AppTheme.colors.textFieldPlaceholder,
-                    )
-                },
-                shape = RoundedCornerShape(AppTheme.dimens.borderRadius),
+                placeholder = stringResource(R.string.search_chats_hint),
             )
 
             Spacer(modifier = Modifier.width(AppTheme.dimens.paddingSmall))

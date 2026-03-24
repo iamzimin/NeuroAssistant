@@ -21,11 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,6 +47,7 @@ import com.evg.neuroassistant.navigation.Route
 import com.evg.neuroassistant.navigation.TopBar
 import com.evg.neuroassistant.snackbar.ObserveAsEvent
 import com.evg.neuroassistant.snackbar.SwipeableSnackBarHost
+import com.evg.settings.presentation.SettingsRoot
 import com.evg.ui.snackbar.SnackBarController
 import com.evg.ui.theme.AppTheme
 import com.evg.resource.R
@@ -68,12 +67,12 @@ fun MainScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val startDestination = viewModel.startDestination
 
-    var selectedItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
     var currentChatTitle by remember {
         mutableStateOf("")
     }
+    val selectedItemIndex = NavigationItem.items.indexOfFirst { item ->
+        currentDes?.hasRoute(item.route::class) == true
+    }.takeIf { it >= 0 } ?: 0
 
     ObserveAsEvent(
         flow = SnackBarController.events,
@@ -134,7 +133,6 @@ fun MainScreen(
                                 launchSingleTop = true
                                 restoreState = true
                             }
-                            selectedItemIndex = index
                             scope.launch {
                                 drawerState.close()
                             }
@@ -192,6 +190,22 @@ fun MainScreen(
                             onNavigateToChat = { chatId ->
                                 currentChatTitle = ""
                                 navController.navigate(Route.Chat(chatId))
+                            },
+                        )
+                    }
+                }
+                composable<Route.Settings> {
+                    NeuroAssistantScaffold { paddingValues ->
+                        SettingsRoot(
+                            modifier = Modifier.fillMaxSize().padding(paddingValues),
+                            onLogout = {
+                                currentChatTitle = ""
+                                navController.navigate(Route.Login) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        inclusive = true
+                                    }
+                                    launchSingleTop = true
+                                }
                             },
                         )
                     }

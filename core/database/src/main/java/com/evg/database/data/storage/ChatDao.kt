@@ -38,4 +38,7 @@ interface ChatDao {
         """
     )
     fun observeChat(chatId: Long): Flow<ChatDBO?>
+
+    @Query("DELETE FROM chats")
+    suspend fun clearAll()
 }

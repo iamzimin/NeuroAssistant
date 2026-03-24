@@ -8,5 +8,11 @@ interface FirebaseApiRepository {
     suspend fun login(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError>
     suspend fun register(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError>
     fun getCurrentUser(): FirebaseUser?
+    suspend fun getProfilePhotoBase64(): ServerResult<String?, FirebaseError>
+    suspend fun updateProfile(
+        displayName: String?,
+        photoBase64: String?,
+        photoFileExtension: String?,
+    ): ServerResult<FirebaseUser?, FirebaseError>
     fun signOut()
 }

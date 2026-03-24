@@ -1,10 +1,11 @@
 package com.evg.settings.di
 
-import android.content.Context
+import com.evg.api.domain.repository.FirebaseApiRepository
+import com.evg.api.domain.repository.GigaChatApiRepository
+import com.evg.database.domain.repository.DatabaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import com.evg.settings.data.repository.SettingsRepositoryImpl
@@ -17,8 +18,14 @@ object SettingsModule {
     @Provides
     @Singleton
     fun provideSettingsRepository(
-        @ApplicationContext context: Context,
+        firebaseApiRepository: FirebaseApiRepository,
+        gigaChatApiRepository: GigaChatApiRepository,
+        databaseRepository: DatabaseRepository,
     ): SettingsRepository {
-        return SettingsRepositoryImpl()
+        return SettingsRepositoryImpl(
+            firebaseApiRepository = firebaseApiRepository,
+            gigaChatApiRepository = gigaChatApiRepository,
+            databaseRepository = databaseRepository,
+        )
     }
 }

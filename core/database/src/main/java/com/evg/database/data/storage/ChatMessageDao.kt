@@ -42,4 +42,7 @@ interface ChatMessageDao {
 
     @Update
     suspend fun updateMessage(message: ChatMessageDBO)
+
+    @Query("DELETE FROM chat_messages")
+    suspend fun clearAll()
 }

@@ -52,6 +52,23 @@ class GigaChatApiRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTokenBalance(
+        model: String,
+    ): ServerResult<Int, GigaChatError> {
+        return withAccessToken { accessToken ->
+            val response = gigaChatService.getBalance(
+                authorization = bearer(accessToken),
+            )
+
+            val balance = response.balance
+                .firstOrNull { item -> item.usage.equals(model, ignoreCase = true) }
+                ?.value
+                ?: return@withAccessToken ServerResult.Error(GigaChatError.NOT_FOUND)
+
+            ServerResult.Success(balance)
+        }
+    }
+
     private suspend fun <T> withAccessToken(
         block: suspend (String) -> ServerResult<T, GigaChatError>,
     ): ServerResult<T, GigaChatError> {

@@ -16,6 +16,11 @@ data class NavigationItem(
                 route = Route.ChatsList,
                 icon = R.drawable.eye_on,
             ),
+            NavigationItem(
+                title = R.string.profile_title,
+                route = Route.Settings,
+                icon = R.drawable.profile,
+            ),
         )
     }
 }

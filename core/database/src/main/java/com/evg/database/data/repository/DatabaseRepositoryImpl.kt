@@ -4,12 +4,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.evg.database.data.storage.ChatDao
+import com.evg.database.data.storage.ChatMessageDao
 import com.evg.database.domain.model.ChatDBO
 import com.evg.database.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
 
 class DatabaseRepositoryImpl(
     private val chatDao: ChatDao,
+    private val chatMessageDao: ChatMessageDao,
 ) : DatabaseRepository {
     private companion object {
         const val DEFAULT_CHAT_TITLE = "New chat"
@@ -49,5 +51,10 @@ class DatabaseRepositoryImpl(
                 createdAt = System.currentTimeMillis(),
             )
         )
+    }
+
+    override suspend fun clearAll() {
+        chatMessageDao.clearAll()
+        chatDao.clearAll()
     }
 }

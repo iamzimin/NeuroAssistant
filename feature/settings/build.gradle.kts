@@ -38,6 +38,7 @@ android {
 dependencies {
     implementation(project(":core:resource"))
     implementation(project(":core:api"))
+    implementation(project(":core:database"))
 
     // MVI Orbit
     implementation(libs.mvi.orbit.core)
@@ -50,6 +51,7 @@ dependencies {
     implementation(libs.dagger.hilt.navigation)
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -57,5 +59,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.coil.compose)
     debugImplementation(libs.androidx.ui.tooling)
 }

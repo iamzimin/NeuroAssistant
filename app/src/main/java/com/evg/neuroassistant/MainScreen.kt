@@ -113,7 +113,9 @@ fun MainScreen(
         if (viewModel.createdChatId < 0L) return@LaunchedEffect
 
         currentChatTitle = ""
-        navController.navigate(Route.Chat(viewModel.createdChatId))
+        navController.navigate(Route.Chat(viewModel.createdChatId)) {
+            popUpTo(Route.Chat::class) { inclusive = true }
+        }
         drawerState.close()
         viewModel.clearCreatedChat()
     }
@@ -267,7 +269,6 @@ fun MainScreen(
                                     popUpTo(navController.graph.startDestinationId) {
                                         inclusive = true
                                     }
-                                    launchSingleTop = true
                                 }
                             },
                         )

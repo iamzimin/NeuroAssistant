@@ -55,13 +55,6 @@ fun LoginScreen(
     state: LoginState,
     dispatch: (LoginAction) -> Unit,
 ) {
-    var emailText by remember(state.email) {
-        mutableStateOf(TextFieldValue(state.email))
-    }
-    var passwordText by remember(state.password) {
-        mutableStateOf(TextFieldValue(state.password))
-    }
-
     val authorization = stringResource(R.string.authorization)
     val registration = stringResource(R.string.registration)
     val loginAccountProgressText = stringResource(R.string.login_account_progress)
@@ -132,9 +125,9 @@ fun LoginScreen(
             AuthorizationTextField(
                 filedName = emailLabel,
                 placeholder = enterEmailPlaceholder,
-                value = emailText,
+                value = state.email,
                 isError = !state.isEmailValid,
-                onValueChange = { newText -> dispatch(LoginAction.OnEmailChanged(newText.text)) }
+                onValueChange = { newText -> dispatch(LoginAction.OnEmailChanged(newText)) }
             )
 
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingSmall))
@@ -142,9 +135,9 @@ fun LoginScreen(
             AuthorizationTextField(
                 filedName = passwordLabel,
                 placeholder = enterPasswordPlaceholder,
-                value = passwordText,
+                value = state.password,
                 isError = !state.isPasswordValid,
-                onValueChange = { newText -> dispatch(LoginAction.OnPasswordChanged(newText.text)) },
+                onValueChange = { newText -> dispatch(LoginAction.OnPasswordChanged(newText)) },
                 isPassword = true,
             )
 

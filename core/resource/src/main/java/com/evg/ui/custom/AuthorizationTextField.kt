@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -31,8 +30,8 @@ import com.evg.ui.theme.NeuroAssistantTheme
 fun AuthorizationTextField(
     filedName: String,
     placeholder: String,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     isError: Boolean = false,
     isPassword: Boolean = false,
 ) {
@@ -91,7 +90,7 @@ fun AuthorizationTextFieldPreview(darkTheme: Boolean = true) {
             AuthorizationTextField(
                 filedName = "Email",
                 placeholder = "Enter your email",
-                value = TextFieldValue(text = "test.email@mail.com"),
+                value = "test.email@mail.com",
                 onValueChange = {},
                 isError = false,
                 isPassword = true,

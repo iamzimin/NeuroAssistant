@@ -49,6 +49,7 @@ import com.evg.neuroassistant.navigation.NavigationItem
 import com.evg.neuroassistant.navigation.NeuroAssistantScaffold
 import com.evg.neuroassistant.navigation.Route
 import com.evg.neuroassistant.navigation.TopBar
+import com.evg.neuroassistant.navigation.topNavPadding
 import com.evg.neuroassistant.snackbar.ObserveAsEvent
 import com.evg.neuroassistant.snackbar.SwipeableSnackBarHost
 import com.evg.settings.presentation.SettingsRoot
@@ -226,7 +227,9 @@ fun MainScreen(
                 composable<Route.Chat> { backStackEntry ->
                     val route = backStackEntry.toRoute<Route.Chat>()
 
-                    NeuroAssistantScaffold { paddingValues ->
+                    NeuroAssistantScaffold(
+                        modifier = Modifier.padding(top = topNavPadding),
+                    ) { paddingValues ->
                         ChatRoot(
                             modifier = Modifier.fillMaxSize().padding(paddingValues),
                             chatId = route.id,

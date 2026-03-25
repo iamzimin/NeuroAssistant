@@ -45,6 +45,7 @@ fun ChatInputBar(
             onValueChange = onValueChange,
             minLines = 1,
             maxLines = 5,
+            singleLine = false,
             placeholder = stringResource(R.string.chat_message_hint),
             trailingIcon = {
                 if (value.isNotBlank()) {

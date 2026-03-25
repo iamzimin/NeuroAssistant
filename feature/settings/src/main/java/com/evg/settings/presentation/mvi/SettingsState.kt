@@ -19,6 +19,11 @@ data class SettingsState(
     val hasNameChanges: Boolean
         get() = editedDisplayName.trim() != profile?.displayName.orEmpty().trim()
 
+    val isEditedDisplayNameEmpty: Boolean
+        get() = editedDisplayName.isBlank()
+
     val canSave: Boolean
-        get() = !isSaving && (hasPhotoChanges || hasNameChanges)
+        get() = !isSaving &&
+                !isEditedDisplayNameEmpty &&
+                (hasPhotoChanges || hasNameChanges)
 }

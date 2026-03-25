@@ -78,4 +78,10 @@ AI-ассистент для повседневных задач на основ
 
 ## Скриншоты
 
-Позже
+<img width="190" alt="Image1" src="https://github.com/user-attachments/assets/78cdd2e9-2e97-4ab6-8b3a-5d2b83ba064c" />
+<img width="190" alt="Image2" src="https://github.com/user-attachments/assets/44740104-c657-4c17-a19b-6f3c9cb76f35" />
+<img width="190" alt="Image3" src="https://github.com/user-attachments/assets/d9ab4672-941b-4488-a395-664329a40792" />
+<img width="190" alt="Image4" src="https://github.com/user-attachments/assets/e6ed0a2e-3d98-45e8-b6b5-0f2c17020b08" />
+<img width="190" alt="Image5" src="https://github.com/user-attachments/assets/2375fccf-3817-4172-aa71-1795576a1a53" />
+
+

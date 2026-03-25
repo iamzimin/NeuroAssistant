@@ -8,6 +8,7 @@ import com.evg.database.data.storage.ChatMessageDao
 import com.evg.database.domain.model.ChatDBO
 import com.evg.database.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 /**
  * Репозиторий для работы с базой данных чатов и сообщений
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
  * @property chatDao DAO для работы с чатами
  * @property chatMessageDao DAO для работы с сообщениями чатов
  */
-class DatabaseRepositoryImpl(
+class DatabaseRepositoryImpl @Inject constructor(
     private val chatDao: ChatDao,
     private val chatMessageDao: ChatMessageDao,
 ) : DatabaseRepository {

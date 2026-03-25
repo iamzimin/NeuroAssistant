@@ -15,9 +15,9 @@ object ChatsListModule {
 
     @Provides
     @Singleton
-    fun provideChatsListRepository(
-        databaseRepository: DatabaseRepository,
+    fun provideChatRepository(
+        chatsListRepositoryImpl: ChatsListRepositoryImpl,
     ): ChatsListRepository {
-        return ChatsListRepositoryImpl(databaseRepository)
+        return chatsListRepositoryImpl
     }
 }

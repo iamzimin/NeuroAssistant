@@ -16,10 +16,8 @@ object LoginModule {
     @Provides
     @Singleton
     fun provideLoginRepository(
-        firebaseApi: FirebaseApiRepository,
+        loginRepositoryImpl: LoginRepositoryImpl,
     ): LoginRepository {
-        return LoginRepositoryImpl(
-            firebaseApi = firebaseApi,
-        )
+        return loginRepositoryImpl
     }
 }

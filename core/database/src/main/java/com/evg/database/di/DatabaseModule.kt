@@ -50,20 +50,16 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabaseRepository(
-        chatDao: ChatDao,
-        chatMessageDao: ChatMessageDao,
+        databaseRepositoryImpl: DatabaseRepositoryImpl,
     ): DatabaseRepository {
-        return DatabaseRepositoryImpl(
-            chatDao = chatDao,
-            chatMessageDao = chatMessageDao,
-        )
+        return databaseRepositoryImpl
     }
 
     @Provides
     @Singleton
     fun provideChatHistoryRepository(
-        chatMessageDao: ChatMessageDao,
+        chatHistoryRepositoryImpl: ChatHistoryRepositoryImpl,
     ): ChatHistoryRepository {
-        return ChatHistoryRepositoryImpl(chatMessageDao)
+        return chatHistoryRepositoryImpl
     }
 }

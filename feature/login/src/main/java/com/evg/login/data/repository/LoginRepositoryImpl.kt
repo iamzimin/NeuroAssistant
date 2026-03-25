@@ -5,8 +5,9 @@ import com.evg.api.domain.utils.FirebaseError
 import com.evg.api.domain.utils.ServerResult
 import com.evg.api.domain.utils.mapData
 import com.evg.login.domain.repository.LoginRepository
+import javax.inject.Inject
 
-class LoginRepositoryImpl(
+class LoginRepositoryImpl @Inject constructor(
     private val firebaseApi: FirebaseApiRepository,
 ) : LoginRepository {
     override suspend fun login(

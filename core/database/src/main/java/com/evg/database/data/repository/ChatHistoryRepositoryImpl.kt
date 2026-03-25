@@ -4,8 +4,9 @@ import com.evg.database.data.storage.ChatMessageDao
 import com.evg.database.domain.model.ChatMessageDBO
 import com.evg.database.domain.repository.ChatHistoryRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class ChatHistoryRepositoryImpl(
+class ChatHistoryRepositoryImpl @Inject constructor(
     private val chatMessageDao: ChatMessageDao,
 ) : ChatHistoryRepository {
     override fun observeMessages(chatId: Long): Flow<List<ChatMessageDBO>> {

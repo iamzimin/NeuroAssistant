@@ -13,6 +13,7 @@ import com.evg.settings.domain.mapper.toProfileInfo
 import com.evg.settings.domain.model.ProfileInfo
 import com.evg.settings.domain.repository.SettingsRepository
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import javax.inject.Inject
 
 /**
  * Репозиторий для управления настройками пользователя, профилем и балансом токенов GigaChat
@@ -21,7 +22,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
  * @property gigaChatApiRepository Репозиторий для работы с GigaChat API
  * @property databaseRepository Репозиторий для работы с локальной базой данных
  */
-class SettingsRepositoryImpl(
+class SettingsRepositoryImpl @Inject constructor(
     private val firebaseApiRepository: FirebaseApiRepository,
     private val gigaChatApiRepository: GigaChatApiRepository,
     private val databaseRepository: DatabaseRepository,

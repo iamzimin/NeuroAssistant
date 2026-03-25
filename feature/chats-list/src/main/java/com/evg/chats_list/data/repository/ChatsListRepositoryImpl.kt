@@ -8,8 +8,9 @@ import com.evg.chats_list.domain.repository.ChatsListRepository
 import com.evg.database.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ChatsListRepositoryImpl(
+class ChatsListRepositoryImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository,
 ) : ChatsListRepository {
     override fun getChats(query: String?): Flow<PagingData<ChatListItem>> {

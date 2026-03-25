@@ -1,6 +1,9 @@
 package com.evg.neuroassistant
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +23,7 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +56,7 @@ import com.evg.ui.snackbar.SnackBarController
 import com.evg.ui.theme.AppTheme
 import com.evg.resource.R
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -66,6 +71,7 @@ fun MainScreen(
     val isLoginScreen = currentDes?.hasRoute(Route.Login::class) == true
     val snackBarHostState = remember { SnackbarHostState() }
     val startDestination = viewModel.startDestination
+    val isSplashVisible = viewModel.isSplashVisible
 
     var currentChatTitle by remember {
         mutableStateOf("")
@@ -89,6 +95,13 @@ fun MainScreen(
             if (result == SnackbarResult.ActionPerformed) {
                 event.action?.action?.invoke()
             }
+        }
+    }
+
+    LaunchedEffect(isSplashVisible) {
+        if (isSplashVisible) {
+            delay(1600)
+            viewModel.dismissSplash()
         }
     }
 
@@ -225,5 +238,12 @@ fun MainScreen(
                 }
             }
         }
+    }
+
+    AnimatedVisibility(
+        visible = isSplashVisible,
+        exit = fadeOut(animationSpec = tween(durationMillis = 300)),
+    ) {
+        AppLaunchSplash()
     }
 }

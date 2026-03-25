@@ -5,6 +5,7 @@ import com.evg.api.domain.repository.FirebaseApiRepository
 import com.evg.api.domain.utils.FirebaseError
 import com.evg.api.domain.utils.ServerResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FieldValue
@@ -30,6 +31,16 @@ class FirebaseRepositoryImpl @Inject constructor(
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             ServerResult.Success(result.user) // TODO null
+        } catch (e: Exception) {
+            ServerResult.Error(e.toFirebaseError())
+        }
+    }
+
+    override suspend fun loginWithGoogle(idToken: String): ServerResult<FirebaseUser?, FirebaseError> {
+        return try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            val result = firebaseAuth.signInWithCredential(credential).await()
+            ServerResult.Success(result.user)
         } catch (e: Exception) {
             ServerResult.Error(e.toFirebaseError())
         }

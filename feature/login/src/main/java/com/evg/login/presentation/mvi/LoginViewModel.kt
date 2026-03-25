@@ -33,6 +33,14 @@ class LoginViewModel @Inject constructor(
             is LoginAction.OnRegisterClicked -> {
                 register()
             }
+            is LoginAction.OnGoogleSignInClicked -> {
+                intent {
+                    postSideEffect(LoginSideEffect.LaunchGoogleSignIn)
+                }
+            }
+            is LoginAction.OnGoogleIdTokenReceived -> {
+                loginWithGoogle(action.idToken)
+            }
             is LoginAction.ToggleLoginMode -> {
                 intent {
                     reduce { state.copy(isLoginMode = !state.isLoginMode) }
@@ -57,6 +65,19 @@ class LoginViewModel @Inject constructor(
     private fun register() = intent {
         reduce { state.copy(isLoading = true) }
         when (val response = repository.register(state.email, state.password)) {
+            is ServerResult.Success -> {
+                postSideEffect(LoginSideEffect.NavigateToHome)
+            }
+            is ServerResult.Error -> {
+                postSideEffect(LoginSideEffect.ShowError(response.error))
+            }
+        }
+        reduce { state.copy(isLoading = false) }
+    }
+
+    private fun loginWithGoogle(idToken: String) = intent {
+        reduce { state.copy(isLoading = true) }
+        when (val response = repository.loginWithGoogle(idToken)) {
             is ServerResult.Success -> {
                 postSideEffect(LoginSideEffect.NavigateToHome)
             }

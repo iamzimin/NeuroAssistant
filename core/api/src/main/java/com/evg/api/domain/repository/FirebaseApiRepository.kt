@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 interface FirebaseApiRepository {
     suspend fun login(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError>
     suspend fun register(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError>
+    suspend fun loginWithGoogle(idToken: String): ServerResult<FirebaseUser?, FirebaseError>
     fun getCurrentUser(): FirebaseUser?
     suspend fun getProfilePhotoBase64(): ServerResult<String?, FirebaseError>
     suspend fun updateProfile(

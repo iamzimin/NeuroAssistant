@@ -6,4 +6,5 @@ import com.evg.api.domain.utils.ServerResult
 interface LoginRepository {
     suspend fun login(email: String, password: String): ServerResult<Unit?, FirebaseError>
     suspend fun register(email: String, password: String): ServerResult<Unit?, FirebaseError>
+    suspend fun loginWithGoogle(idToken: String): ServerResult<Unit?, FirebaseError>
 }

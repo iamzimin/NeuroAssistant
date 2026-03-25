@@ -22,4 +22,8 @@ class LoginRepositoryImpl(
     ): ServerResult<Unit, FirebaseError> {
         return firebaseApi.register(email, password).mapData { Unit }
     }
+
+    override suspend fun loginWithGoogle(idToken: String): ServerResult<Unit, FirebaseError> {
+        return firebaseApi.loginWithGoogle(idToken).mapData { Unit }
+    }
 }

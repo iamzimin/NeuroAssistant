@@ -31,6 +31,8 @@ fun LoginRoot(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val state = viewModel.collectAsState().value
+
     val credentialManager = remember(context.applicationContext) {
         CredentialManager.create(context.applicationContext)
     }
@@ -90,7 +92,11 @@ fun LoginRoot(
                         action = SnackBarAction(
                             name = context.getString(R.string.retry),
                             action = {
-                                viewModel.dispatch(LoginAction.OnLoginClicked)
+                                if (state.isLoginMode) {
+                                    viewModel.dispatch(LoginAction.OnLoginClicked)
+                                } else {
+                                    viewModel.dispatch(LoginAction.OnRegisterClicked)
+                                }
                             },
                         ),
                     )
@@ -101,7 +107,7 @@ fun LoginRoot(
 
     LoginScreen(
         modifier = modifier,
-        state = viewModel.collectAsState().value,
+        state = state,
         dispatch = viewModel::dispatch,
     )
 }

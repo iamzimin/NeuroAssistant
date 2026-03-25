@@ -3,7 +3,8 @@
 
     <!--Login screen-->
     <!--Registration screen-->
-    <string name="welcome">Welcome!</string>
+    <string name="authorization">Authorization</string>
+    <string name="registration">Registration</string>
     <string name="create_account_progress">Create an account</string>
     <string name="email">Email</string>
     <string name="enter_email">Enter your email</string>

@@ -44,6 +44,7 @@ import com.evg.login.presentation.mvi.LoginAction
 import com.evg.login.presentation.mvi.LoginState
 import com.evg.resource.R
 import com.evg.ui.custom.AuthorizationTextField
+import com.evg.ui.custom.Header
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
 import kotlinx.coroutines.delay
@@ -62,7 +63,8 @@ fun LoginScreen(
         mutableStateOf(TextFieldValue(state.password))
     }
 
-    val welcomeText = stringResource(R.string.welcome)
+    val authorization = stringResource(R.string.authorization)
+    val registration = stringResource(R.string.registration)
     val loginAccountProgressText = stringResource(R.string.login_account_progress)
     val createAccountProgressText = stringResource(R.string.create_account_progress)
     val emailLabel = stringResource(R.string.email)
@@ -113,12 +115,11 @@ fun LoginScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-        )
-        {
+        ) {
             Text(
-                text = welcomeText,
+                text = if (state.isLoginMode) authorization else registration,
                 style = AppTheme.typography.heading,
-                color = AppTheme.colors.primary
+                color = AppTheme.colors.primary,
             )
 
             Text(
@@ -185,15 +186,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingMedium))
 
-            SocialLoginButton(
-                icon = painterResource(id = R.drawable.google),
-                contentDescription = googleSignInText,
-                enabled = !state.isLoading,
-                onClick = { dispatch(LoginAction.OnGoogleSignInClicked) },
-            )
-
-            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingMedium))
-
             TextButton(
                 onClick = { dispatch(LoginAction.ToggleLoginMode) }
             ) {
@@ -203,6 +195,15 @@ fun LoginScreen(
                     style = AppTheme.typography.body
                 )
             }
+
+            Spacer(modifier = Modifier.height(AppTheme.dimens.paddingSmall))
+
+            SocialLoginButton(
+                icon = painterResource(id = R.drawable.google),
+                contentDescription = googleSignInText,
+                enabled = !state.isLoading,
+                onClick = { dispatch(LoginAction.OnGoogleSignInClicked) },
+            )
         }
     }
 }

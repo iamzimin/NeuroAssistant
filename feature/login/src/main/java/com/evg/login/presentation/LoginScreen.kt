@@ -126,7 +126,7 @@ fun LoginScreen(
                 filedName = emailLabel,
                 placeholder = enterEmailPlaceholder,
                 value = state.email,
-                isError = !state.isEmailValid,
+                isError = !state.isEmailValid && state.email.isNotBlank(),
                 onValueChange = { newText -> dispatch(LoginAction.OnEmailChanged(newText)) }
             )
 
@@ -136,7 +136,7 @@ fun LoginScreen(
                 filedName = passwordLabel,
                 placeholder = enterPasswordPlaceholder,
                 value = state.password,
-                isError = !state.isPasswordValid,
+                isError = !state.isPasswordValid && state.password.isNotBlank(),
                 onValueChange = { newText -> dispatch(LoginAction.OnPasswordChanged(newText)) },
                 isPassword = true,
             )
@@ -159,7 +159,8 @@ fun LoginScreen(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = AppTheme.colors.primary,
                     contentColor = AppTheme.colors.background,
-                    disabledContainerColor = AppTheme.colors.primary.copy(alpha = 0.5f)
+                    disabledContainerColor = AppTheme.colors.primary.copy(alpha = 0.5f),
+                    disabledContentColor = AppTheme.colors.background.copy(alpha = 0.5f),
                 )
             ) {
                 if (state.isLoading) {

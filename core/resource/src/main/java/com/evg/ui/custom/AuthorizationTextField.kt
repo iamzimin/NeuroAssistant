@@ -89,6 +89,7 @@ fun AuthorizationTextField(
             cursorColor = AppTheme.colors.primary,
             focusedContainerColor = AppTheme.colors.tileBackground,
             unfocusedContainerColor = AppTheme.colors.tileBackground,
+            errorContainerColor = AppTheme.colors.tileBackground,
         )
     )
 }

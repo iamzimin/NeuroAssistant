@@ -152,6 +152,8 @@ fun ProfileInfoCard(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = AppTheme.colors.primary,
                         contentColor = AppTheme.colors.background,
+                        disabledContainerColor = AppTheme.colors.primary.copy(alpha = 0.5f),
+                        disabledContentColor = AppTheme.colors.background.copy(alpha = 0.5f),
                     ),
                 ) {
                     if (state.isSaving) {

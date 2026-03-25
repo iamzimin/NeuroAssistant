@@ -82,7 +82,7 @@ fun MainScreen(
     }
     val selectedItemIndex = NavigationItem.items.indexOfFirst { item ->
         currentDes?.hasRoute(item.route::class) == true
-    }.takeIf { it >= 0 } ?: 0
+    }.takeIf { it >= 0 }
 
     ObserveAsEvent(
         flow = SnackBarController.events,

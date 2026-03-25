@@ -78,6 +78,7 @@ fun DefaultTextField(
             cursorColor = AppTheme.colors.primary,
             focusedContainerColor = tileBackground,
             unfocusedContainerColor = tileBackground,
+            errorContainerColor = tileBackground,
         )
     )
 }

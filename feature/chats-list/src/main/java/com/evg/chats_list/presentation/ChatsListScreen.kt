@@ -165,7 +165,7 @@ fun ChatsListScreen(
                 .padding(AppTheme.dimens.buttonPadding),
             backgroundColor = if (isSystemInDarkTheme()) darkAddButtonColor else lightAddButtonColor,
             icon = painterResource(id = R.drawable.plus),
-            iconColor = AppTheme.colors.primary,
+            iconColor = AppTheme.colors.background,
             isLoading = state.isCreatingChat,
             onClick = {
                 dispatch(ChatsListAction.OnCreateChatClicked(chatName))

@@ -43,7 +43,7 @@ val baseDarkPalette = AppPalette(
 
 val baseLightPalette = AppPalette(
     primary = Color(0xFF91A8D0),
-    secondary = Color(0xFF375E97),
+    secondary = Color(0xFF668DC7),
     background = Color(0xFFFFFFFF),
     shimmer = Color.Gray,
 

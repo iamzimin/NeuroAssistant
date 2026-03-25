@@ -14,7 +14,7 @@ data class NavigationItem(
             NavigationItem(
                 title = R.string.chats_list,
                 route = Route.ChatsList,
-                icon = R.drawable.eye_on,
+                icon = R.drawable.chats,
             ),
             NavigationItem(
                 title = R.string.profile_title,

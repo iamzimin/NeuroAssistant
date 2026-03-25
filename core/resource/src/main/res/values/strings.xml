@@ -22,6 +22,7 @@
     <string name="forgot_password">Forgot your password?</string>
     <string name="google_sign_in">Sign in with Google</string>
     <string name="google_sign_in_failed">Google sign-in failed</string>
+    <string name="google_reauth_failed">Google reauth failed</string>
     <string name="google_sign_in_not_configured">Google sign-in is not configured in Firebase yet</string>
 
     <!--Chats screen-->
@@ -77,6 +78,7 @@
     <string name="ssl_handshake">SSL handshake error</string>
 
     <string name="error_invalid_credentials">Invalid credentials</string>
+    <string name="error_invalid_email">Invalid email</string>
     <string name="error_wrong_password">Incorrect password</string>
     <string name="error_user_not_found">User not found</string>
     <string name="error_user_disabled">User account is disabled</string>

@@ -2,6 +2,7 @@ package com.evg.api.domain.utils
 
 enum class FirebaseError : Error {
     INVALID_CREDENTIAL,
+    INVALID_EMAIL,
     USER_NOT_FOUND,
     USER_DISABLED,
     EMAIL_ALREADY_IN_USE,

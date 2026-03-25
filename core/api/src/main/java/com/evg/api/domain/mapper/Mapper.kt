@@ -5,6 +5,7 @@ import com.evg.api.domain.utils.GigaChatError
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.serialization.SerializationException
@@ -21,6 +22,7 @@ fun Throwable.toFirebaseError(): FirebaseError {
         is FirebaseAuthUserCollisionException -> FirebaseError.EMAIL_ALREADY_IN_USE
         is FirebaseTooManyRequestsException -> FirebaseError.TOO_MANY_REQUESTS
         is FirebaseNetworkException -> FirebaseError.NETWORK_ERROR
+        is FirebaseAuthInvalidCredentialsException -> FirebaseError.INVALID_EMAIL
         is FirebaseAuthException -> {
             when (this.errorCode) {
                 "ERROR_INVALID_CREDENTIAL" -> FirebaseError.INVALID_CREDENTIAL

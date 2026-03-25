@@ -26,6 +26,7 @@ fun GigaChatError.toErrorMessage(context: Context): String {
 fun FirebaseError.toErrorMessage(context: Context): String {
     return when (this) {
         FirebaseError.INVALID_CREDENTIAL -> context.getString(R.string.error_invalid_credentials)
+        FirebaseError.INVALID_EMAIL -> context.getString(R.string.error_invalid_email)
         FirebaseError.USER_NOT_FOUND -> context.getString(R.string.error_user_not_found)
         FirebaseError.USER_DISABLED -> context.getString(R.string.error_user_disabled)
         FirebaseError.EMAIL_ALREADY_IN_USE -> context.getString(R.string.error_email_already_in_use)

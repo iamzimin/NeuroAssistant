@@ -75,8 +75,10 @@ fun LoginRoot(
                                     viewModel.dispatch(LoginAction.OnGoogleIdTokenReceived(idToken))
                                 }
                             } catch (_: GetCredentialCancellationException) {
-                                //
-                            } catch (_: GetCredentialException) {
+                                SnackBarController.sendEvent(
+                                    SnackBarEvent(message = context.getString(R.string.google_reauth_failed))
+                                )
+                            } catch (_: Exception) {
                                 SnackBarController.sendEvent(
                                     SnackBarEvent(message = context.getString(R.string.google_sign_in_failed))
                                 )

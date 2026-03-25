@@ -28,6 +28,13 @@ import com.evg.ui.theme.AppTheme
 
 val topNavPadding = 45.dp
 
+/**
+ * Верхняя панель с анимацией появления/исчезновения
+ *
+ * @param navigation Контроллер навигации для отслеживания текущего маршрута
+ * @param title Заголовок, отображаемый в панели
+ * @param onPreviousScreen Колбэк для обработки возврата на предыдущий экран
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(

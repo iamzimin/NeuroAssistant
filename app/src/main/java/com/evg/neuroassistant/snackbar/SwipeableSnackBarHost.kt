@@ -27,6 +27,11 @@ enum class SwipeDirection {
     Right,
 }
 
+/**
+ * Хост для Snackbar с поддержкой свайпа для его закрытия
+ *
+ * @param hostState Состояние хоста Snackbar для отображения сообщений
+ */
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
 fun SwipeableSnackBarHost(hostState: SnackbarHostState) {

@@ -15,6 +15,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
+/**
+ * Репозиторий для работы с чатами, историей сообщений и API GigaChat
+ *
+ * @property databaseRepository Репозиторий для доступа к локальной базе данных
+ * @property chatHistoryRepository Репозиторий для работы с историей сообщений
+ * @property gigaChatApiRepository Репозиторий для взаимодействия с GigaChat API
+ */
 class ChatRepositoryImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val chatHistoryRepository: ChatHistoryRepository,
@@ -24,6 +31,12 @@ class ChatRepositoryImpl @Inject constructor(
         const val CHAT_TITLE_MAX_LENGTH = 100
     }
 
+    /**
+     * Наблюдение за конкретной беседой чата с объединением данных и сообщений
+     *
+     * @param chatId ID чата
+     * @return [Flow] с объектом [ChatConversation] или null
+     */
     override fun observeChat(chatId: Long): Flow<ChatConversation?> {
         return combine(
             databaseRepository.observeChat(chatId),
@@ -33,6 +46,13 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Отправка сообщения пользователя и генерация ответа ассистента
+     *
+     * @param chatId ID чата
+     * @param text Текст сообщения пользователя
+     * @return [ServerResult] с [Unit] при успехе или [GigaChatError] при ошибке
+     */
     override suspend fun sendMessage(
         chatId: Long,
         text: String,
@@ -82,6 +102,13 @@ class ChatRepositoryImpl @Inject constructor(
         )
     }
 
+    /**
+     * Повторная отправка сообщения ассистента для генерации ответа
+     *
+     * @param chatId ID чата
+     * @param assistantMessageId ID сообщения ассистента
+     * @return [ServerResult] с [Unit] при успехе или [GigaChatError] при ошибке
+     */
     override suspend fun retryAssistantMessage(
         chatId: Long,
         assistantMessageId: Long,
@@ -105,6 +132,14 @@ class ChatRepositoryImpl @Inject constructor(
         )
     }
 
+    /**
+     * Отправка запроса ассистенту и обновление состояния сообщения ассистента
+     *
+     * @param chatId ID чата
+     * @param anchorUserMessageId ID якорного сообщения пользователя
+     * @param assistantMessageId ID сообщения ассистента для обновления
+     * @return [ServerResult] с [Unit] при успехе или [GigaChatError] при ошибке
+     */
     private suspend fun requestAssistantReply(
         chatId: Long,
         anchorUserMessageId: Long,
@@ -137,6 +172,13 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Формирование списка сообщений для запроса к GigaChat
+     *
+     * @param chatId ID чата
+     * @param anchorUserMessageId ID якорного сообщения пользователя
+     * @return Список сообщений [GigaChatRequestMessage] для запроса
+     */
     private suspend fun buildRequestMessages(
         chatId: Long,
         anchorUserMessageId: Long,
@@ -153,6 +195,11 @@ class ChatRepositoryImpl @Inject constructor(
             .map { it.toRequestMessage() }
     }
 
+    /**
+     * Смена сообщения ассистента как ошибки
+     *
+     * @param assistantMessageId ID сообщения ассистента
+     */
     private suspend fun markAssistantMessageAsError(assistantMessageId: Long) {
         val assistantMessage = chatHistoryRepository.getMessage(assistantMessageId) ?: return
         chatHistoryRepository.updateMessage(

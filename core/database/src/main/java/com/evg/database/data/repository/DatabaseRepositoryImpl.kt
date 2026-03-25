@@ -9,6 +9,12 @@ import com.evg.database.domain.model.ChatDBO
 import com.evg.database.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Репозиторий для работы с базой данных чатов и сообщений
+ *
+ * @property chatDao DAO для работы с чатами
+ * @property chatMessageDao DAO для работы с сообщениями чатов
+ */
 class DatabaseRepositoryImpl(
     private val chatDao: ChatDao,
     private val chatMessageDao: ChatMessageDao,
@@ -18,6 +24,12 @@ class DatabaseRepositoryImpl(
         const val PREFETCH_DISTANCE = 5
     }
 
+    /**
+     * Получение списка чатов с поддержкой пагинации и фильтрации по запросу
+     *
+     * @param query Строка для фильтрации чатов по названию
+     * @return [Flow] с [PagingData] объектов [ChatDBO]
+     */
     override fun getChats(query: String?): Flow<PagingData<ChatDBO>> {
         val normalizedQuery = query?.trim().orEmpty()
 
@@ -37,10 +49,22 @@ class DatabaseRepositoryImpl(
         ).flow
     }
 
+    /**
+     * Наблюдение за конкретным чатом по ID
+     *
+     * @param chatId Идентификатор чата
+     * @return [Flow] с объектом [ChatDBO] или null, если чат не найден
+     */
     override fun observeChat(chatId: Long): Flow<ChatDBO?> {
         return chatDao.observeChat(chatId)
     }
 
+    /**
+     * Создание нового чата с заданным названием
+     *
+     * @param title Название чата
+     * @return ID созданного чата
+     */
     override suspend fun createChat(title: String): Long {
         val normalizedTitle = title.trim()
         val chatId = chatDao.insertChat(
@@ -53,11 +77,21 @@ class DatabaseRepositoryImpl(
         return chatId
     }
 
+    /**
+     * Обновление названия существующего чата
+     *
+     * @param chatId Идентификатор чата
+     * @param title Новое название чата
+     */
     override suspend fun updateChatTitle(chatId: Long, title: String) {
         val normalizedTitle = title.trim()
         chatDao.updateChatTitle(chatId = chatId, title = normalizedTitle)
     }
 
+
+    /**
+     * Очистка всех чатов и сообщений из базы данных
+     */
     override suspend fun clearAll() {
         chatMessageDao.clearAll()
         chatDao.clearAll()

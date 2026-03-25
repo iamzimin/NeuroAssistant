@@ -14,6 +14,11 @@ enum class Keyboard {
     Opened, Closed
 }
 
+/**
+ * Наблюдение за состоянием клавиатуры на экране
+ *
+ * @return [State] с текущим состоянием клавиатуры [Keyboard.Opened] или [Keyboard.Closed]
+ */
 @Composable
 fun keyboardAsState(): State<Keyboard> {
     val keyboardState = remember { mutableStateOf(Keyboard.Closed) }

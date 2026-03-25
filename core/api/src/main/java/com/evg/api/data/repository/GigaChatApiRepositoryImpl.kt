@@ -13,11 +13,23 @@ import com.evg.api.domain.utils.ServerResult
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Реализация репозитория для работы с GigaChat API
+ *
+ * @property tokenProvider Провайдер для получения токена доступа к API
+ * @property gigaChatService Сервис для выполнения сетевых запросов к GigaChat
+ */
 @Singleton
 class GigaChatApiRepositoryImpl @Inject constructor(
     private val tokenProvider: GigaChatTokenProvider,
     private val gigaChatService: GigaChatService,
 ) : GigaChatApiRepository {
+    /**
+     * Получение ответа от GigaChat по списку сообщений
+     *
+     * @param messages Список сообщений для передачи в модель
+     * @return [ServerResult] с результатом [GigaChatCompletionResult] или [GigaChatError]
+     */
     override suspend fun getAnswer(
         messages: List<GigaChatRequestMessage>,
     ): ServerResult<GigaChatCompletionResult, GigaChatError> {
@@ -52,6 +64,12 @@ class GigaChatApiRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Получение баланса токенов для указанной модели
+     *
+     * @param model Название модели для проверки баланса
+     * @return [ServerResult] с числом оставшихся токенов или [GigaChatError]
+     */
     override suspend fun getTokenBalance(
         model: String,
     ): ServerResult<Int, GigaChatError> {
@@ -69,6 +87,13 @@ class GigaChatApiRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Выполнение блока с действующим токеном доступа
+     *
+     * @param T Тип результата блока
+     * @param block Суспенд-блок, принимающий токен и возвращающий [ServerResult]
+     * @return [ServerResult] результата выполнения блока
+     */
     private suspend fun <T> withAccessToken(
         block: suspend (String) -> ServerResult<T, GigaChatError>,
     ): ServerResult<T, GigaChatError> {
@@ -78,6 +103,13 @@ class GigaChatApiRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Безопасный вызов API с обработкой ошибок
+     *
+     * @param T Тип результата блока
+     * @param block Суспенд-блок, возвращающий [ServerResult]
+     * @return [ServerResult] результата выполнения блока или конвертированная ошибка
+     */
     private suspend fun <T> safeApiCall(
         block: suspend () -> ServerResult<T, GigaChatError>,
     ): ServerResult<T, GigaChatError> {

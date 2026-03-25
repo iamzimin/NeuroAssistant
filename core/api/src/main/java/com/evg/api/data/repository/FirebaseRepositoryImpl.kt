@@ -15,10 +15,23 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для работы с Firebase Authentication и Firestore
+ *
+ * @property firebaseAuth Экземпляр [FirebaseAuth] для аутентификации пользователей
+ * @property firebaseFirestore Экземпляр [FirebaseFirestore] для работы с данными пользователей
+ */
 class FirebaseRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore,
 ): FirebaseApiRepository {
+    /**
+     * Вход пользователя с email и паролем
+     *
+     * @param email Email пользователя
+     * @param password Пароль пользователя
+     * @return [ServerResult] с объектом [FirebaseUser] при успехе или [FirebaseError] при ошибке
+     */
     override suspend fun login(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
@@ -34,6 +47,13 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Регистрация нового пользователя с email и паролем
+     *
+     * @param email Email нового пользователя
+     * @param password Пароль нового пользователя
+     * @return [ServerResult] с объектом [FirebaseUser] при успехе или [FirebaseError] при ошибке
+     */
     override suspend fun register(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError> {
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
@@ -49,6 +69,12 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Вход пользователя через Google ID токен
+     *
+     * @param idToken Токен Google для аутентификации
+     * @return [ServerResult] с объектом [FirebaseUser] при успехе или [FirebaseError] при ошибке
+     */
     override suspend fun loginWithGoogle(idToken: String): ServerResult<FirebaseUser?, FirebaseError> {
         return try {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -59,10 +85,20 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Получение текущего авторизованного пользователя
+     *
+     * @return Текущий [FirebaseUser] или null, если пользователь не авторизован
+     */
     override fun getCurrentUser(): FirebaseUser? {
         return firebaseAuth.currentUser
     }
 
+    /**
+     * Получение фотографии профиля пользователя в формате Base64
+     *
+     * @return [ServerResult] с Base64 строкой фотографии или [FirebaseError] при ошибке
+     */
     override suspend fun getProfilePhotoBase64(): ServerResult<String?, FirebaseError> {
         val user = firebaseAuth.currentUser
             ?: return ServerResult.Error(FirebaseError.INVALID_CREDENTIAL)
@@ -79,6 +115,14 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Обновление профиля пользователя: имя и фотография
+     *
+     * @param displayName Новое отображаемое имя пользователя
+     * @param photoBase64 Фотография пользователя в формате Base64
+     * @param photoFileExtension Расширение файла фотографии
+     * @return [ServerResult] с объектом [FirebaseUser] при успехе или [FirebaseError] при ошибке
+     */
     override suspend fun updateProfile(
         displayName: String?,
         photoBase64: String?,
@@ -117,6 +161,9 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Выход пользователя из приложения
+     */
     override fun signOut() {
         firebaseAuth.signOut()
     }

@@ -11,6 +11,11 @@ import javax.inject.Singleton
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+/**
+ * Провайдер токена доступа для GigaChat с кешированием и синхронизацией
+ *
+ * @property authService Сервис для получения токена доступа
+ */
 @Singleton
 class GigaChatTokenProvider @Inject constructor(
     private val authService: GigaChatAuthService,
@@ -23,6 +28,11 @@ class GigaChatTokenProvider @Inject constructor(
     private val mutex = Mutex()
     private var cachedToken: CachedToken? = null
 
+    /**
+     * Получение актуального токена доступа с учетом кеша
+     *
+     * @return [ServerResult] с токеном в случае успеха или [GigaChatError] при ошибке
+     */
     suspend fun getAccessToken(): ServerResult<String, GigaChatError> {
         val now = System.currentTimeMillis()
         cachedToken?.takeIf { it.isValid(now) }?.let { token ->
@@ -57,6 +67,13 @@ class GigaChatTokenProvider @Inject constructor(
         }
     }
 
+    /**
+     * Безопасный вызов API с обработкой исключений
+     *
+     * @param T Тип возвращаемого значения блока
+     * @param block Суспенд-блок для выполнения API запроса
+     * @return [ServerResult] с результатом блока или конвертированной ошибкой
+     */
     private suspend fun <T> safeApiCall(
         block: suspend () -> T,
     ): ServerResult<T, GigaChatError> {

@@ -9,6 +9,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
+/**
+ * Подписка на [Flow] как событие с учетом жизненного цикла
+ *
+ * @param T Тип данных потока
+ * @param flow Поток данных для наблюдения
+ * @param key1 Ключ для управления перезапуском эффекта
+ * @param key2 Второй ключ для управления перезапуском эффекта
+ * @param onEvent Колбэк, вызываемый при каждом новом элементе потока
+ */
 @Composable
 fun <T> ObserveAsEvent(
     flow: Flow<T>,

@@ -14,11 +14,23 @@ import com.evg.settings.domain.model.ProfileInfo
 import com.evg.settings.domain.repository.SettingsRepository
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
+/**
+ * Репозиторий для управления настройками пользователя, профилем и балансом токенов GigaChat
+ *
+ * @property firebaseApiRepository Репозиторий для работы с Firebase
+ * @property gigaChatApiRepository Репозиторий для работы с GigaChat API
+ * @property databaseRepository Репозиторий для работы с локальной базой данных
+ */
 class SettingsRepositoryImpl(
     private val firebaseApiRepository: FirebaseApiRepository,
     private val gigaChatApiRepository: GigaChatApiRepository,
     private val databaseRepository: DatabaseRepository,
 ) : SettingsRepository {
+    /**
+     * Получение информации профиля текущего пользователя
+     *
+     * @return [ProfileInfo] с данными пользователя или null, если пользователь не авторизован
+     */
     override suspend fun getProfileInfo(): ProfileInfo? {
         val currentUser = firebaseApiRepository.getCurrentUser() ?: return null
         val photoBytes = when (val result = firebaseApiRepository.getProfilePhotoBase64()) {
@@ -35,10 +47,23 @@ class SettingsRepositoryImpl(
         return currentUser.toProfileInfo(photoBytes)
     }
 
+    /**
+     * Получение баланса токенов пользователя в GigaChat
+     *
+     * @return [ServerResult] с числом токенов или [GigaChatError] при ошибке
+     */
     override suspend fun getGigaChatTokenBalance(): ServerResult<Int, GigaChatError> {
         return gigaChatApiRepository.getTokenBalance(GigaChatCredentials.MODEL)
     }
 
+    /**
+     * Обновление профиля пользователя: имя и фотография
+     *
+     * @param displayName Новое отображаемое имя пользователя
+     * @param photoBytes Фотография пользователя в виде [ByteArray]
+     * @param photoFileExtension Расширение файла фотографии
+     * @return [ServerResult] с обновленным [ProfileInfo] или [FirebaseError] при ошибке
+     */
     override suspend fun updateProfile(
         displayName: String?,
         photoBytes: ByteArray?,
@@ -71,6 +96,9 @@ class SettingsRepositoryImpl(
         }
     }
 
+    /**
+     * Выход пользователя из приложения и очистка локальных данных
+     */
     override suspend fun logout() {
         try {
             databaseRepository.clearAll()

@@ -7,6 +7,7 @@ import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 internal fun createGoogleSignInRequest(context: Context): GetCredentialRequest? {
     val serverClientId = context.resolveDefaultWebClientId() ?: return null
@@ -26,7 +27,8 @@ internal fun Credential.extractGoogleIdTokenOrNull(): String? {
 
     return try {
         GoogleIdTokenCredential.createFrom(data).idToken
-    } catch (_: GoogleIdTokenParsingException) {
+    } catch (e: GoogleIdTokenParsingException) {
+        FirebaseCrashlytics.getInstance().recordException(e)
         null
     }
 }

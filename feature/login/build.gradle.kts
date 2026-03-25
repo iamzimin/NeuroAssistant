@@ -49,6 +49,9 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.navigation)
 
+    // Firebase crashlytics
+    implementation(libs.firebase.crashlytics)
+
     // Google ID
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

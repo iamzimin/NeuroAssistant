@@ -19,6 +19,7 @@ import com.evg.ui.mapper.toErrorMessage
 import com.evg.ui.snackbar.SnackBarAction
 import com.evg.ui.snackbar.SnackBarController
 import com.evg.ui.snackbar.SnackBarEvent
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -74,11 +75,13 @@ fun LoginRoot(
                                 } else {
                                     viewModel.dispatch(LoginAction.OnGoogleIdTokenReceived(idToken))
                                 }
-                            } catch (_: GetCredentialCancellationException) {
+                            } catch (e: GetCredentialCancellationException) {
+                                FirebaseCrashlytics.getInstance().recordException(e)
                                 SnackBarController.sendEvent(
                                     SnackBarEvent(message = context.getString(R.string.google_reauth_failed))
                                 )
-                            } catch (_: Exception) {
+                            } catch (e: Exception) {
+                                FirebaseCrashlytics.getInstance().recordException(e)
                                 SnackBarController.sendEvent(
                                     SnackBarEvent(message = context.getString(R.string.google_sign_in_failed))
                                 )

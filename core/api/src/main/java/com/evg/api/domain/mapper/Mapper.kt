@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.serialization.SerializationException
 import retrofit2.HttpException
 import java.net.ConnectException
@@ -17,6 +18,7 @@ import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
 
 fun Throwable.toFirebaseError(): FirebaseError {
+    FirebaseCrashlytics.getInstance().recordException(this)
     return when (this) {
         is FirebaseAuthWeakPasswordException -> FirebaseError.WEAK_PASSWORD
         is FirebaseAuthUserCollisionException -> FirebaseError.EMAIL_ALREADY_IN_USE
@@ -36,6 +38,7 @@ fun Throwable.toFirebaseError(): FirebaseError {
 }
 
 fun Throwable.toGigaChatError(): GigaChatError {
+    FirebaseCrashlytics.getInstance().recordException(this)
     return when (this) {
         is HttpException -> when (code()) {
             400 -> GigaChatError.BAD_REQUEST

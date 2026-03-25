@@ -69,7 +69,7 @@ fun ChatsListScreen(
         ) {
             DefaultTextField(
                 modifier = Modifier.weight(1f),
-                value = state.appliedQuery ?: "",
+                value = state.searchQuery,
                 onValueChange = { dispatch(ChatsListAction.OnSearchQueryChanged(it)) },
                 singleLine = true,
                 placeholder = stringResource(R.string.search_chats_hint),

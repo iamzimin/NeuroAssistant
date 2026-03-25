@@ -51,8 +51,8 @@ fun DefaultTextField(
         minLines = minLines,
         maxLines = maxLines ?: if (singleLine) 1 else Int.MAX_VALUE,
         colors = OutlinedTextFieldDefaults.colors(
-            //focusedBorderColor = AppTheme.colors.primary,
-            //unfocusedBorderColor = AppTheme.colors.tileBackground,
+            focusedBorderColor = AppTheme.colors.primary,
+            unfocusedBorderColor = AppTheme.colors.primary.copy(alpha = 0.5f),
             cursorColor = AppTheme.colors.primary,
             //focusedContainerColor = AppTheme.colors.tileBackground,
             //unfocusedContainerColor = AppTheme.colors.tileBackground,

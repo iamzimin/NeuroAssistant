@@ -87,7 +87,11 @@ fun ChatInputBar(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(id = R.drawable.send),
                     contentDescription = stringResource(R.string.chat_send),
-                    tint = AppTheme.colors.background,
+                    tint = if (value.isBlank()) {
+                        AppTheme.colors.text.copy(alpha = 0.5f)
+                    } else {
+                        AppTheme.colors.background
+                    },
                 )
             }
         }

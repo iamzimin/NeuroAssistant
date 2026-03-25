@@ -10,11 +10,13 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -22,6 +24,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.evg.resource.R
+import com.evg.ui.Keyboard
+import com.evg.ui.keyboardAsState
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
 
@@ -35,6 +39,9 @@ fun AuthorizationTextField(
     isError: Boolean = false,
     isPassword: Boolean = false,
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardState by keyboardAsState()
+
     var passwordVisible by remember { mutableStateOf(false) }
     val icon = if (passwordVisible) painterResource(R.drawable.eye_off) else painterResource(R.drawable.eye_on)
     val keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Email
@@ -42,6 +49,11 @@ fun AuthorizationTextField(
         if (isPassword && !passwordVisible) PasswordVisualTransformation()
         else VisualTransformation.None
 
+    LaunchedEffect(keyboardState) {
+        if (keyboardState == Keyboard.Closed) {
+            focusManager.clearFocus()
+        }
+    }
 
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),

@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -21,7 +22,13 @@ class FirebaseRepositoryImpl @Inject constructor(
     override suspend fun login(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            ServerResult.Success(result.user) // TODO null
+            val user = result.user
+            if (user != null) {
+                ServerResult.Success(user)
+            } else {
+                FirebaseCrashlytics.getInstance().recordException(Exception("User is null in login function FirebaseRepositoryImpl"))
+                ServerResult.Error(FirebaseError.UNKNOWN)
+            }
         } catch (e: Exception) {
             ServerResult.Error(e.toFirebaseError())
         }
@@ -30,7 +37,13 @@ class FirebaseRepositoryImpl @Inject constructor(
     override suspend fun register(email: String, password: String): ServerResult<FirebaseUser?, FirebaseError> {
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            ServerResult.Success(result.user) // TODO null
+            val user = result.user
+            if (user != null) {
+                ServerResult.Success(user)
+            } else {
+                FirebaseCrashlytics.getInstance().recordException(Exception("User is null in register function FirebaseRepositoryImpl"))
+                ServerResult.Error(FirebaseError.UNKNOWN)
+            }
         } catch (e: Exception) {
             ServerResult.Error(e.toFirebaseError())
         }

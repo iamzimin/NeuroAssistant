@@ -1,4 +1,4 @@
-package com.evg.chat.domain.mapper
+﻿package com.evg.chat.domain.mapper
 
 import com.evg.api.domain.model.GigaChatRequestMessage
 import com.evg.chat.domain.model.ChatConversation
@@ -24,14 +24,14 @@ fun ChatMessageDBO.toChatMessage(): ChatMessage {
         role = when (role) {
             ChatMessageDBO.ROLE_USER -> ChatMessageRole.USER
             ChatMessageDBO.ROLE_ASSISTANT -> ChatMessageRole.ASSISTANT
-            else -> throw IllegalArgumentException("Unknown role: $role") //TODO
+            else -> ChatMessageRole.ASSISTANT
         },
         content = content,
         status = when (status) {
             ChatMessageDBO.STATUS_SENT -> ChatMessageStatus.SENT
             ChatMessageDBO.STATUS_GENERATING -> ChatMessageStatus.GENERATING
             ChatMessageDBO.STATUS_ERROR -> ChatMessageStatus.ERROR
-            else -> throw IllegalArgumentException("Unknown status: $status") //TODO
+            else -> ChatMessageStatus.ERROR
         },
         createdAt = createdAt,
         requestUserMessageId = requestUserMessageId,

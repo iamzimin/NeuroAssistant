@@ -40,7 +40,7 @@ class ChatsListViewModel @Inject constructor(
 
     private fun applySearch() = intent {
         val normalizedQuery = state.searchQuery.trim()
-        //if (normalizedQuery.isBlank()) return@intent // TODO
+        //if (normalizedQuery.isBlank()) return@intent // wierd
 
         reduce { state.copy(appliedQuery = normalizedQuery) }
         appliedQuery.value = normalizedQuery

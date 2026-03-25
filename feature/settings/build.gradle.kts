@@ -50,6 +50,9 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.navigation)
 
+    // Firebase crashlytics
+    implementation(libs.firebase.crashlytics)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)

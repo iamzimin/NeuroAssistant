@@ -12,6 +12,7 @@ import com.evg.settings.domain.mapper.toCompressedBase64
 import com.evg.settings.domain.mapper.toProfileInfo
 import com.evg.settings.domain.model.ProfileInfo
 import com.evg.settings.domain.repository.SettingsRepository
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class SettingsRepositoryImpl(
     private val firebaseApiRepository: FirebaseApiRepository,
@@ -59,6 +60,7 @@ class SettingsRepositoryImpl(
                 val profileInfo = getProfileInfo()
 
                 if (profileInfo == null) {
+                    FirebaseCrashlytics.getInstance().recordException(Exception("getProfileInfo is null in profileInfo function SettingsRepositoryImpl"))
                     ServerResult.Error(FirebaseError.UNKNOWN)
                 } else {
                     ServerResult.Success(profileInfo)

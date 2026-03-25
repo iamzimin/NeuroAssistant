@@ -22,6 +22,10 @@ object AppTheme {
     val dimens: AppDimens
         @Composable
         get() = LocalAppDimens.current
+
+    val isDarkTheme: Boolean
+        @Composable
+        get() = LocalAppIsDarkTheme.current
 }
 
 
@@ -31,6 +35,10 @@ val LocalAppColors = staticCompositionLocalOf<AppPalette> {
 
 val LocalAppTypography = staticCompositionLocalOf<AppTypography> {
     error("Typography composition error")
+}
+
+val LocalAppIsDarkTheme = staticCompositionLocalOf {
+    true
 }
 
 val LocalAppDimens = staticCompositionLocalOf {

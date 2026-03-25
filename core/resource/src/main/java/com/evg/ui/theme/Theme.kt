@@ -1,10 +1,15 @@
 package com.evg.ui.theme
 
+import android.app.Activity
+import android.content.ContextWrapper
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 @Composable
 fun NeuroAssistantTheme(
@@ -34,7 +39,27 @@ fun NeuroAssistantTheme(
         AppSize.Medium -> mediumTextSize
     }
 
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val activity = generateSequence(view.context) { context ->
+                (context as? ContextWrapper)?.baseContext
+            }.filterIsInstance<Activity>()
+                .firstOrNull()
+
+            activity?.window?.let { window ->
+                WindowCompat.setDecorFitsSystemWindows(window, false)
+
+                WindowCompat.getInsetsController(window, view).apply {
+                    isAppearanceLightStatusBars = !darkTheme
+                    isAppearanceLightNavigationBars = !darkTheme
+                }
+            }
+        }
+    }
+
     CompositionLocalProvider(
+        LocalAppIsDarkTheme provides darkTheme,
         LocalAppColors provides colors,
         LocalAppTypography provides typography,
         content = content,

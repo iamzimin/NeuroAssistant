@@ -8,9 +8,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -66,6 +68,7 @@ fun MainScreen(
 ) {
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
+    val chatName = stringResource(R.string.empty_chat_title)
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val currentDes = navController.currentBackStackEntryAsState().value?.destination
@@ -106,6 +109,15 @@ fun MainScreen(
         }
     }
 
+    LaunchedEffect(viewModel.createdChatId) {
+        if (viewModel.createdChatId < 0L) return@LaunchedEffect
+
+        currentChatTitle = ""
+        navController.navigate(Route.Chat(viewModel.createdChatId))
+        drawerState.close()
+        viewModel.clearCreatedChat()
+    }
+
     ModalNavigationDrawer(
         modifier = Modifier
             .background(AppTheme.colors.background),
@@ -117,7 +129,7 @@ fun MainScreen(
                     .padding(end = 70.dp),
                 drawerContainerColor = AppTheme.colors.tileBackground,
             ) {
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(AppTheme.dimens.paddingMedium))
 
                 Text(
                     modifier = Modifier
@@ -127,7 +139,44 @@ fun MainScreen(
                     color = AppTheme.colors.text,
                 )
 
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(AppTheme.dimens.paddingMedium))
+
+                NavigationDrawerItem(
+                    label = {
+                        Text(
+                            text = stringResource(R.string.new_chat),
+                            style = AppTheme.typography.body,
+                            color = AppTheme.colors.text,
+                        )
+                    },
+                    selected = false,
+                    onClick = {
+                        viewModel.createChat(chatName)
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedContainerColor = Color.Transparent,
+                        selectedContainerColor = AppTheme.colors.secondary,
+                    ),
+                    icon = {
+                        if (viewModel.isCreatingChat) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = AppTheme.colors.primary,
+                                strokeWidth = 2.dp,
+                            )
+                        } else {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.plus),
+                                contentDescription = stringResource(R.string.new_chat),
+                                tint = AppTheme.colors.text,
+                            )
+                        }
+                    },
+                    shape = RectangleShape,
+                )
+
+                Spacer(modifier = Modifier.height(AppTheme.dimens.paddingSmall))
 
                 NavigationItem.items.forEachIndexed { index, item ->
                     NavigationDrawerItem(
@@ -170,7 +219,7 @@ fun MainScreen(
         },
     ) {
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().imePadding(),
             topBar = { TopBar(
                 navigation = navController,
                 title = currentChatTitle,

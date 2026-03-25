@@ -10,6 +10,6 @@ data class AppDimens(
     val borderRadius: Dp = 15.dp,
     val horizontalPadding: Dp = 10.dp,
     val verticalPadding: Dp = 10.dp,
-    val lazyColumnSpacedBy: Dp = 15.dp,
+    val lazyColumnSpacedBy: Dp = 8.dp,
     val buttonPadding: Dp = 25.dp,
 )

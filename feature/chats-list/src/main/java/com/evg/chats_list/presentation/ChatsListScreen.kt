@@ -1,7 +1,6 @@
 package com.evg.chats_list.presentation
 
 import android.content.res.Configuration
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,10 +36,9 @@ import com.evg.chats_list.presentation.mvi.ChatsListAction
 import com.evg.chats_list.presentation.mvi.ChatsListState
 import com.evg.resource.R
 import com.evg.ui.custom.DefaultTextField
+import com.evg.ui.extensions.darken
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
-import com.evg.ui.theme.darkAddButtonColor
-import com.evg.ui.theme.lightAddButtonColor
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -163,7 +161,7 @@ fun ChatsListScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(AppTheme.dimens.buttonPadding),
-            backgroundColor = if (isSystemInDarkTheme()) darkAddButtonColor else lightAddButtonColor,
+            backgroundColor = AppTheme.colors.primary,
             icon = painterResource(id = R.drawable.plus),
             iconColor = AppTheme.colors.background,
             isLoading = state.isCreatingChat,

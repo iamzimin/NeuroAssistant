@@ -44,7 +44,6 @@ import com.evg.login.presentation.mvi.LoginAction
 import com.evg.login.presentation.mvi.LoginState
 import com.evg.resource.R
 import com.evg.ui.custom.AuthorizationTextField
-import com.evg.ui.custom.Header
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
 import kotlinx.coroutines.delay

@@ -26,22 +26,30 @@ fun GeneratingMessagePlaceholder() {
     Column(
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimens.paddingSmall),
     ) {
-        Box(
+        Column (
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(16.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(AppTheme.colors.shimmer)
                 .shimmer(),
-        )
-        Box(
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .height(16.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(AppTheme.colors.shimmer),
+            )
+        }
+        Column (
             modifier = Modifier
-                .fillMaxWidth(0.55f)
-                .height(16.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(AppTheme.colors.shimmer)
                 .shimmer(),
-        )
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.55f)
+                    .height(16.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(AppTheme.colors.shimmer),
+            )
+        }
         Text(
             text = stringResource(R.string.chat_generating),
             style = AppTheme.typography.small,

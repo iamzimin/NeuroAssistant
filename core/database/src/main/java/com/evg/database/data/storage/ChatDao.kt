@@ -15,6 +15,15 @@ interface ChatDao {
 
     @Query(
         """
+        UPDATE chats
+        SET title = :title
+        WHERE id = :chatId
+        """
+    )
+    suspend fun updateChatTitle(chatId: Long, title: String)
+
+    @Query(
+        """
         SELECT * FROM chats
         ORDER BY createdAt DESC, id DESC
         """

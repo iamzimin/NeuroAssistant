@@ -29,6 +29,7 @@
     <string name="search">Search</string>
     <string name="search_chats_hint">Find chats by title</string>
     <string name="new_chat">New chat</string>
+    <string name="empty_chat_title">Empty chat</string>
     <string name="chat_icon">Chat icon</string>
     <string name="empty_chats_title">No chats yet</string>
     <string name="empty_chats_subtitle">Create your first chat and it will appear here.</string>

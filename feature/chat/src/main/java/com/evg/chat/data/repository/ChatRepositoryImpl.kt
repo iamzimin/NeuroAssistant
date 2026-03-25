@@ -1,28 +1,29 @@
 package com.evg.chat.data.repository
 
-import android.content.Context
 import com.evg.api.domain.model.GigaChatRequestMessage
 import com.evg.api.domain.repository.GigaChatApiRepository
 import com.evg.api.domain.utils.GigaChatError
 import com.evg.api.domain.utils.ServerResult
-import com.evg.chat.domain.model.ChatConversation
 import com.evg.chat.domain.mapper.toChatConversation
 import com.evg.chat.domain.mapper.toRequestMessage
+import com.evg.chat.domain.model.ChatConversation
 import com.evg.chat.domain.repository.ChatRepository
 import com.evg.database.domain.model.ChatMessageDBO
 import com.evg.database.domain.repository.ChatHistoryRepository
 import com.evg.database.domain.repository.DatabaseRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.File
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val chatHistoryRepository: ChatHistoryRepository,
     private val gigaChatApiRepository: GigaChatApiRepository,
 ) : ChatRepository {
+    private companion object {
+        const val CHAT_TITLE_MAX_LENGTH = 100
+    }
+
     override fun observeChat(chatId: Long): Flow<ChatConversation?> {
         return combine(
             databaseRepository.observeChat(chatId),
@@ -40,6 +41,8 @@ class ChatRepositoryImpl @Inject constructor(
         if (normalizedText.isBlank()) {
             return ServerResult.Success(Unit)
         }
+        val isFirstUserMessage = chatHistoryRepository.getMessages(chatId)
+            .none { it.role == ChatMessageDBO.ROLE_USER }
 
         val now = System.currentTimeMillis()
         val userMessageId = chatHistoryRepository.insertMessage(
@@ -51,6 +54,15 @@ class ChatRepositoryImpl @Inject constructor(
                 createdAt = now,
             )
         )
+        if (isFirstUserMessage) {
+            databaseRepository.updateChatTitle(
+                chatId = chatId,
+                title = normalizedText
+                    .replace(Regex("\\s+"), " ")
+                    .trim()
+                    .take(CHAT_TITLE_MAX_LENGTH),
+            )
+        }
 
         val assistantMessageId = chatHistoryRepository.insertMessage(
             ChatMessageDBO(

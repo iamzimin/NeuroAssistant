@@ -14,7 +14,6 @@ class DatabaseRepositoryImpl(
     private val chatMessageDao: ChatMessageDao,
 ) : DatabaseRepository {
     private companion object {
-        const val DEFAULT_CHAT_TITLE = "New chat"
         const val PAGE_SIZE = 20
         const val PREFETCH_DISTANCE = 5
     }
@@ -43,14 +42,20 @@ class DatabaseRepositoryImpl(
     }
 
     override suspend fun createChat(title: String): Long {
-        val normalizedTitle = title.trim().ifBlank { DEFAULT_CHAT_TITLE }
-
-        return chatDao.insertChat(
+        val normalizedTitle = title.trim()
+        val chatId = chatDao.insertChat(
             ChatDBO(
                 title = normalizedTitle,
                 createdAt = System.currentTimeMillis(),
             )
         )
+        chatDao.updateChatTitle(chatId = chatId, title = normalizedTitle)
+        return chatId
+    }
+
+    override suspend fun updateChatTitle(chatId: Long, title: String) {
+        val normalizedTitle = title.trim()
+        chatDao.updateChatTitle(chatId = chatId, title = normalizedTitle)
     }
 
     override suspend fun clearAll() {

@@ -15,18 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +50,8 @@ fun ChatsListScreen(
     chats: LazyPagingItems<ChatListItem>,
     dispatch: (ChatsListAction) -> Unit,
 ) {
+    val chatName = stringResource(R.string.empty_chat_title)
+
     Column(
         modifier = modifier
             .padding(
@@ -166,19 +162,13 @@ fun ChatsListScreen(
         RoundedButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(AppTheme.dimens.buttonPadding)
-            /*.sharedBounds(
-                sharedContentState = rememberSharedContentState(
-                    key = "FAB_EXPLODE_BOUNDS_KEY"
-                ),
-                animatedVisibilityScope = animatedVisibilityScope,
-            )*/,
+                .padding(AppTheme.dimens.buttonPadding),
             backgroundColor = if (isSystemInDarkTheme()) darkAddButtonColor else lightAddButtonColor,
             icon = painterResource(id = R.drawable.plus),
             iconColor = AppTheme.colors.primary,
             isLoading = state.isCreatingChat,
             onClick = {
-                dispatch(ChatsListAction.OnCreateChatClicked("TODO"))
+                dispatch(ChatsListAction.OnCreateChatClicked(chatName))
             },
         )
     }

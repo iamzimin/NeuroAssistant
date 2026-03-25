@@ -7,8 +7,15 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
+import com.evg.ui.Keyboard
+import com.evg.ui.extensions.darken
+import com.evg.ui.extensions.lighten
+import com.evg.ui.keyboardAsState
 import com.evg.ui.theme.AppTheme
 import com.evg.ui.theme.NeuroAssistantTheme
 
@@ -24,6 +31,21 @@ fun DefaultTextField(
     maxLines: Int? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardState by keyboardAsState()
+
+    LaunchedEffect(keyboardState) {
+        if (keyboardState == Keyboard.Closed) {
+            focusManager.clearFocus()
+        }
+    }
+
+    val tileBackground = if (AppTheme.isDarkTheme) {
+        AppTheme.colors.tileBackground.lighten(0.05f)
+    } else {
+        AppTheme.colors.tileBackground.darken(0.95f)
+    }
+
     OutlinedTextField(
         modifier = modifier,
         value = value,
@@ -54,15 +76,15 @@ fun DefaultTextField(
             focusedBorderColor = AppTheme.colors.primary,
             unfocusedBorderColor = AppTheme.colors.primary.copy(alpha = 0.5f),
             cursorColor = AppTheme.colors.primary,
-            //focusedContainerColor = AppTheme.colors.tileBackground,
-            //unfocusedContainerColor = AppTheme.colors.tileBackground,
+            focusedContainerColor = tileBackground,
+            unfocusedContainerColor = tileBackground,
         )
     )
 }
 
 @Composable
 @Preview(showBackground = true)
-fun DefaultTextFieldPreview(darkTheme: Boolean = true) {
+fun DefaultTextFieldPreview(darkTheme: Boolean = false) {
     NeuroAssistantTheme(darkTheme = darkTheme) {
         Surface(color = AppTheme.colors.background) {
             DefaultTextField(

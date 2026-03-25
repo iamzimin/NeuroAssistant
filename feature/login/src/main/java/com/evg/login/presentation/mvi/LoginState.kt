@@ -3,8 +3,8 @@ package com.evg.login.presentation.mvi
 import android.util.Patterns
 
 data class LoginState(
-    val email: String = "test@mail.com",
-    val password: String = "qweqweqwe123",
+    val email: String = "",
+    val password: String = "",
     val isLoading: Boolean = false,
     val isLoginMode: Boolean = true,
 ) {
